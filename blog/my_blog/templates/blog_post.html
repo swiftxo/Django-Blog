@@ -1,23 +1,120 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %} {{ post.title_tag }} {% endblock %}
 
-
-
 {% block content %}
+<style>
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 20px;
+    }
+    </style>
+
  
  <h1>{{ post.title }}</h1>
  <small>
     By: {{ post.author.first_name }} {{ post.author.last_name }}  -
     {{ post.post_date}}
-    <a href = "{% url 'edit_post' post.pk %}"> Edit</a>
-    <a href = "{% url 'delete_post' post.pk %}"> Delete</a>
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+            <a href = "{% url 'edit_post' post.pk %}"> Edit</a>
+            <a href = "{% url 'delete_post' post.pk %}"> Delete</a>
+        {% endif %}
+    {% endif %}
 </small><br/>
  <hr>
  <br/>
- {{ post.body }}
+ {% if post.header_image %}
+    <img style="border: 1px solid #000; max-width:500px; max-height:500px;" src = "{{ post.header_image.url }}">
+{% endif %}
+ {{ post.body|safe }}
 
  <br/><br/>
  <a href = "{% url 'home' %}" class="btn btn-secondary" >Back</a>
+
+ <br/><br/>
+ <hr>
+ <br/>
+ <form action = "{% url 'like_post' post.pk %}" method = "POST">
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+        {% if liked %}
+            <button type = "submit", name = "post_id", value = "{{ post.id }}", class = "btn btn-danger btn-sm">Unlike</button> 
+
+        {% else %}
+        <button type = "submit", name = "post_id", value = "{{ post.id }}", class = "btn btn-primary btn-sm">Like</button> 
+        {% endif %}
+
+    {% else %}
+    <small><a href="{% url 'login' %}">Login to like</a> </small>
+    {% endif %}
+
+    - {{ total_likes }} Likes
+ </form>
+ <br/>
+ <style>
+    .card {
+      margin: 0 auto;
+      width: fit-content;
+    }
+    .img-fluid {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    }
+  </style>
+ <div class="card mb-3" style="max-width: 640px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+    {% if post.author.profile.profile_pic.url %}
+    <img src="{{ post.author.profile.profile_pic.url }}" class="img-fluid rounded-start" alt="user profile picture" width="200" height="200">
+    {% else %}
+        <img src="{% static 'my_blog/images/default.jpg' %}" class="img-fluid rounded-start" alt="user profile picture" width="200" height="200">
+    {% endif %}
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><a href="{% url 'show_profile_page' post.author.profile.id %}">
+            {{ post.author.first_name }} {{ post.author.last_name }}
+        </a></h5>
+          <p class="card-text"><small class="text-body-secondary">
+            {% if post.author.profile.website_link %}
+                <a href="{{ post.author.profile.website_link }}">Website</a> |
+            {% endif %}
+            {% if post.author.profile.github_link %}
+                <a href="{{ post.author.profile.github_link }}">GitHub</a> |
+            {% endif %}
+            {% if post.author.profile.twitter_link %}
+                <a href="{{ post.author.profile.twitter_link }}">Twitter</a> |
+            {% endif %}
+            {% if post.author.profile.instagram_link %}
+                <a href="{{ post.author.profile.instagram_link }}">Instagram</a> |
+            {% endif %}
+            {% if post.author.profile.spotify_link %}
+                <a href="{{ post.author.profile.spotify_link }}">Spotify</a> |
+            {% endif %}
+            {% if post.author.profile.soundcloud_link %}
+                <a href="{{ post.author.profile.soundcloud_link }}">SoundCloud</a> |
+            {% endif %}
+            {% if post.author.profile.youtube_link %}
+                <a href="{{ post.author.profile.youtube_link }}">YouTube</a>
+            {% endif %}
+
+
+        {% if post.author.profile.profile_pic.url %}
+            </small></p>
+            <p class="card-text">{{ post.author.profile.bio | truncatechars:140}}</p>
+        {% else %}
+        </small></p>
+            <p class="card-text">This user haven't made a bio yet</p>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
  {% endblock %}

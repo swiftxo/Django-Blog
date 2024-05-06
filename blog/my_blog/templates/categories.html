@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if category_posts %}
+    <h1>{{ cats }}</h1>
+    <div class="row">
+        {% for post in category_posts %}
+        <div class="col-md-4 mb-3">
+            <div class="card" style="width: 18rem;">
+                <!-- If you have a thumbnail image for the post -->
+                <img src="{{ 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png' }}" class="card-img-top" alt="{{ post.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <small class="text-muted">By {{ post.author.get_full_name }} | {{ post.post_date|date:"Y-m-d" }}</small>
+                    <p class="card-text">{{ post.body|slice:":150"|safe }}</p> <!-- Truncating to 20 words for preview -->
+                    <a href="{% url 'article-detail' post.pk %}" class="btn btn-primary">Read More</a>
+                    
+                    <br/>
+                    {% if user.is_authenticated %}
+                        <small><a href="{% url 'edit_post' post.pk %}">Edit</a>
+                        <a href="{% url 'delete_post' post.pk %}">Delete</a></small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <h1>This page does not exist!</h1>
+
+{% endif %}
+
+
+
+{% endblock %}

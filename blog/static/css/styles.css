@@ -1,0 +1,51 @@
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* Input and textarea adjustments */
+input[type="text"], input[type="email"], textarea {
+    width: 100%; /* Ensures full width */
+    padding: 10px; /* Better padding */
+    border: 1px solid #ccc; /* Subtle borders */
+    border-radius: 5px; /* Rounded corners for inputs */
+}
+
+/* Button enhancements */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.save-button-wrapper {
+    margin-top: 20px; 
+}
+
+input[type="text"], input[type="password"], textarea {
+    width: 100%; /* Ensures full width */
+    padding: 10px; /* Better padding */
+    border: 1px solid #ccc; /* Subtle borders */
+    border-radius: 5px; /* Rounded corners for inputs */
+}
+input[type="url"] {
+    width: 100%; /* Ensures full width */
+    padding: 10px; /* Better padding */
+    border: 1px solid #ccc; /* Subtle borders */
+    border-radius: 5px; /* Rounded corners for inputs */
+}
+.form-group {
+    margin-bottom: 20px; /* Add space between each form group */
+}

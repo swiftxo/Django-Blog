@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}  
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block head %}
+<link href="{% static 'css/styles.css' %}" rel="stylesheet"> 
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    {% if user.id == profile.user.id %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Profile Picture</div>
+                    <div class="card-body text-center">
+                        {% if form.profile_pic.value %}
+                            <img src="{{ form.profile_pic.value.url }}" class="img-fluid rounded-start" alt="Profile picture" width="200" height="200">
+                        {% else %}
+                            <img src="{% static 'images/default_profile.jpg' %}" class="img-fluid rounded-start" alt="Default profile picture" width="200" height="200">
+                        {% endif %}
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                        {{ form.profile_pic.errors }}
+                        {{ form.profile_pic }}
+                        <button type="submit" class="btn btn-primary">Upload new image</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <div class="card mb-4">
+                    <div class="card-header">Account Details</div>
+                    <div class="card-body">
+                        <!-- Bio Field Full Width -->
+                        <div class="mb-3">
+                            {{ form.bio.errors }}
+                            <label class="small mb-1" for="{{ form.bio.id_for_label }}">{{ form.bio.label }}</label>
+                            {{ form.bio }}  
+                        </div>
+                        <!-- Social Links - Two per row -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form.instagram_link.errors }}
+                                <label class="small mb-1" for="{{ form.instagram_link.id_for_label }}">{{ form.instagram_link.label }}</label>
+                                {{ form.instagram_link }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.twitter_link.errors }}
+                                <label class="small mb-1" for="{{ form.twitter_link.id_for_label }}">{{ form.twitter_link.label }}</label>
+                                {{ form.twitter_link }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.website_link.errors }}
+                                <label class="small mb-1" for="{{ form.website_link.id_for_label }}">{{ form.website_link.label }}</label>
+                                {{ form.website_link }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.github_link.errors }}
+                                <label class="small mb-1" for="{{ form.github_link.id_for_label }}">{{ form.github_link.label }}</label>
+                                {{ form.github_link }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.spotify_link.errors }}
+                                <label class="small mb-1" for="{{ form.spotify_link.id_for_label }}">{{ form.spotify_link.label }}</label>
+                                {{ form.spotify_link }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.soundcloud_link.errors }}
+                                <label class="small mb-1" for="{{ form.soundcloud_link.id_for_label }}">{{ form.soundcloud_link.label }}</label>
+                                {{ form.soundcloud_link }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.youtube_link.errors }}
+                                <label class="small mb-1" for="{{ form.youtube_link.id_for_label }}">{{ form.youtube_link.label }}</label>
+                                {{ form.youtube_link }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.discord_link.errors }}
+                                <label class="small mb-1" for="{{ form.discord_link.id_for_label }}">{{ form.discord_link.label }}</label>
+                                {{ form.discord_link }}
+                            </div>                            
+    
+
+                        </div>
+                        <!-- Save Button -->
+                        <div class="save-button-wrapper">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                                
+    {% else %}
+        You're not powerful enough to do that >:) 
+    {% endif %}
+{% else %}
+    You're not powerful enough to do that >:) 
+{% endif %}
+{% endblock %}

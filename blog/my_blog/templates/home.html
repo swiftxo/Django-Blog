@@ -1,19 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+    .card-img-top {
+        height: 200px;  /* or any other height */
+        object-fit: cover;  /* This prevents distortion */
+        width: 100%;  /* This will make the image responsive */
+    }
+</style>
+
 
 <h1>Posts</h1>
-<ul>
-{% for post in object_list %}
-    <li><a href = "{% url 'article-detail' post.pk %}">{{ post.title }}</a> -  {{ post.author.first_name }} 
-        {{ post.author.last_name }} - <small><a href = "{% url 'edit_post' post.pk %}"> Edit</a>
-        <a href = "{% url 'delete_post' post.pk %}"> Delete</a>
-        </small>
-        
-        <br/>
-        {{ post.body }} </li>
-{% endfor %}
-</ul>
-
-
+<div class="row">
+    {% for post in object_list %}
+    <div class="col-md-4 mb-3">
+        <div class="card" style="width: 18rem;">
+            {% if post.header_image %}
+                <img src="{{ post.header_image.url }}" class="card-img-top" alt="{{ post.title }}">
+            {% else %}
+                <img src="{{ 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png' }}" class="card-img-top" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <small class="text-muted">By {{ post.author.get_full_name }} | {{ post.post_date|date:"Y-m-d" }} | <a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a>
+                </small>
+                <p class="card-text">{{ post.snippet }}</p> 
+                <a href="{% url 'article-detail' post.pk %}" class="btn btn-primary">Read More</a>
+                
+                <br/>
+                {% if user.is_authenticated %}
+                    {% if user.id == post.author.id %}
+                        <small><a href="{% url 'edit_post' post.pk %}">Edit</a>
+                        <a href="{% url 'delete_post' post.pk %}">Delete</a></small>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 {% endblock %}

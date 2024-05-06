@@ -2,16 +2,33 @@
 {% block title %} Make a post  {% endblock %}
 {% block content %}
 
-<h1>Create a post</h1>
-<br/>
-<div class="form-group">
+{% if user.is_authenticated %}
+    <h1>Create a post</h1>
+    <br/>
+    <div class="form-group">
 
-    <form method = "POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-secondary">Post</button>
-    </form>
-</div>
+        <form method = "POST" enctype = "multipart/form-data">
+            {% csrf_token %}
+            {{ form.media}}
+            {{ form.as_p }}
+            <button class="btn btn-secondary">Post</button>
+        </form>
+        
+    </div>
+
+    <script>
+        var name = "{{ user.id }}";
+        document.getElementById("user").value = name;
+
+
+    </script>
+
+
+{% else %}
+    You're not powerful enough to do that >:) 
+{% endif %}
+
+
 
 
 

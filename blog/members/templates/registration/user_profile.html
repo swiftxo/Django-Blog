@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %} User Profile  {% endblock %}
+{% load static %}
+
+
+
+{% block content %}
+<h1 style="font-size: 56px;">{{ profile.user.first_name }}  {{  profile.user.last_name  }}</h1>
+
+{% endblock %}
+
+

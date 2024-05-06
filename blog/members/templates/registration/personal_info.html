@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %} Edit Profile {% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Edit Profile</h1>
+    <form method="POST" class="form-horizontal">
+        {% csrf_token %}
+        <div style="margin-bottom: 10px;"div class="form-group">
+            {{ form.username.label_tag }} {{ form.username }}
+        </div>
+        <div style="margin-bottom: 10px;" div class="form-group">
+            {{ form.first_name.label_tag }} {{ form.first_name }}
+        </div>
+        <div style="margin-bottom: 10px;" div class="form-group">
+            {{ form.last_name.label_tag }} {{ form.last_name }}
+        </div>
+        <div style="margin-bottom: -2px;" div class="form-group">
+            {{ form.email.label_tag }} {{ form.email }}
+        </div>
+        <br/>
+        <div class="form-group d-flex align-items-center"> <!-- Flex container for inline buttons -->
+            <button style = "margin-right:10px" button type="submit" class="btn btn-secondary mr-2">Update</button>
+            <a href="{% url 'change-password' user.id %}" class="btn btn-primary">Change Password</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
