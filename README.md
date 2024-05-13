@@ -44,5 +44,3 @@ Distributed under the MIT License. See [MIT License](https://opensource.org/lice
  ## Contact
 
 Sohan Hossain - hoss1529@mylaurier.ca
-
-Project Link: [https://github.com/swiftxo/starlite](https://github.com/swiftxo/starlite)
